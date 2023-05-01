@@ -8,5 +8,8 @@ branches:
 
 build: off
 
+install:
+  - java -jar ./artifacts/app-order.jar &
+
 build_script:
   - ./gradlew test --info
