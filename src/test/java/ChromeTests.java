@@ -91,4 +91,30 @@ class ChromeTests {
         String expected = "Поле обязательно для заполнения";
         assertEquals(expected, actual);
     }
+    @Test
+    void negativeTestNameIsWrong() {
+        driver.get("http://localhost:9999/");
+        driver.findElement(By.cssSelector("[data-test-id='name'] input"))
+                .sendKeys("Vasilij Utkin");
+        driver.findElement(By.cssSelector("[data-test-id='phone'] input"))
+                .sendKeys("");
+        driver.findElement(By.cssSelector("[data-test-id='agreement']"))
+                .click();
+        driver.findElement(By.tagName("button")).click();
+        String actual = driver.findElement(By.cssSelector(".input_invalid .input__sub")).getText().trim();
+        String expected = "Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.";
+        assertEquals(expected, actual);
+    }
+    @Test
+    void negativeTestNoAgreement() {
+        driver.get("http://localhost:9999/");
+        driver.findElement(By.cssSelector("[data-test-id='name'] input"))
+                .sendKeys("Случайное Имя");
+        driver.findElement(By.cssSelector("[data-test-id='phone'] input"))
+                .sendKeys("123");
+        driver.findElement(By.tagName("button")).click();
+        String actual = driver.findElement(By.cssSelector(".input_invalid .input__sub")).getCssValue("color");
+        String expected = "rgba(255, 92, 92, 1)";
+        assertEquals(expected, actual);
+    }
 }
