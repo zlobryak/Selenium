@@ -8,7 +8,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
- class ChromeTests {
+class ChromeTests {
 
     WebDriver driver;
 
@@ -34,7 +34,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
     @Test
     void test() {
-        // Your test logic here
         driver.get("http://localhost:9999/");
         driver.findElement(By.cssSelector("[data-test-id='name'] input"))
                 .sendKeys("Василий Уткин");
@@ -48,4 +47,48 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         assertEquals(expected, actual);
     }
 
+    @Test
+    void negativeTestNameIsEmpty() {
+        driver.get("http://localhost:9999/");
+        driver.findElement(By.cssSelector("[data-test-id='name'] input"))
+                .sendKeys("");
+        driver.findElement(By.cssSelector("[data-test-id='phone'] input"))
+                .sendKeys("+79062421277");
+        driver.findElement(By.cssSelector("[data-test-id='agreement']"))
+                .click();
+        driver.findElement(By.tagName("button")).click();
+        String actual = driver.findElement(By.cssSelector(".input_invalid .input__sub")).getText().trim();
+        String expected = "Поле обязательно для заполнения";
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void negativeTestPhoneIsEmpty() {
+        driver.get("http://localhost:9999/");
+        driver.findElement(By.cssSelector("[data-test-id='name'] input"))
+                .sendKeys("Василий Уткин");
+        driver.findElement(By.cssSelector("[data-test-id='phone'] input"))
+                .sendKeys("");
+        driver.findElement(By.cssSelector("[data-test-id='agreement']"))
+                .click();
+        driver.findElement(By.tagName("button")).click();
+        String actual = driver.findElement(By.cssSelector(".input_invalid .input__sub")).getText().trim();
+        String expected = "Поле обязательно для заполнения";
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void negativeTestPhoneAndNameIsEmpty() {
+        driver.get("http://localhost:9999/");
+        driver.findElement(By.cssSelector("[data-test-id='name'] input"))
+                .sendKeys("");
+        driver.findElement(By.cssSelector("[data-test-id='phone'] input"))
+                .sendKeys("");
+        driver.findElement(By.cssSelector("[data-test-id='agreement']"))
+                .click();
+        driver.findElement(By.tagName("button")).click();
+        String actual = driver.findElement(By.cssSelector(".input_invalid .input__sub")).getText().trim();
+        String expected = "Поле обязательно для заполнения";
+        assertEquals(expected, actual);
+    }
 }
