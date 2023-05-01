@@ -44,7 +44,7 @@ public class ChromeTests {
         driver.findElement(By.tagName("button")).click();
         String actual = driver.findElement(By.cssSelector("[data-test-id='order-success']")).getText().trim();
         String expected = "Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.";
-        assertEquals(actual, expected);
+        assertEquals(expected, actual);
     }
 
 }
